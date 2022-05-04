@@ -11,8 +11,6 @@ import decoration from '../../resources/img/vision.png';
 
 import ErrorBoundary from '../errorBoundary/ErrorBoundary';
 
-import NewHeader from '../newheader/NewHeader';
-
 // ф-ія, в якій збираються всі компоненти разом і відправляються для рендерингу на сторінку в index.js
 
 class App extends Component {
@@ -52,13 +50,6 @@ class App extends Component {
         return (
             <div className="app">
                 <AppHeader />
-                {/* <ErrorBoundary>
-                <NewHeader>
-                    <h1>Text1</h1>
-                    <h2>Text2222</h2>
-                    <h3>Text33333</h3>
-                </NewHeader>
-                </ErrorBoundary> */}
                 <main>
                     <ErrorBoundary>
                         <RandomChar />
