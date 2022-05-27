@@ -1,0 +1,96 @@
+
+.formWrapper {
+    margin-top: 30px;
+    width: 425px;
+    padding: 25px;
+    box-shadow: 0px 0px 20px rgb(0 0 0 / 25%);
+    background-color: #FFFFFF;
+}
+.labelInp {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 21px;
+    color: #000000;
+    margin-bottom: 15px;
+}
+.inp {
+    width: 250px;
+    margin-right: 25px;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    padding: 9px;
+    border: none;
+}
+.search-btn {
+    width: 101px;
+    height: 38px;
+    background: #9F0013;
+}
+.error {
+    margin-top: 25px;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 21px;
+    color: #9F0013;
+}
+.sub {
+    width: 101px;
+    height: 38px;
+    background: #9F0013;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    text-align: center;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 12px 0px 12px 0px;
+}
+.message {
+    display: inline-block;
+    margin-top: 22px;
+    margin-right: 64px;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 0px;
+    color: #03710E;
+}
+.message-err {
+    margin-top: 22px;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 21px;
+    color: #9F0013;
+}
+.innerBtn {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 11px;
+}
+.enter {
+    opacity: 0;
+}
+.enter-active {
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+} 
+.exit {
+    opacity: 1;
+}
+.exit-active {
+    opacity: 0;
+    transition: opacity 500ms ease-in;
+} 
+.inp-wrapper  {
+    display: flex;
+    align-items: center;
+}
+.inp-wrapper svg {
+    width: 80px;
+    height: 40px;
+}

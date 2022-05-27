@@ -1,4 +1,4 @@
-@import '../../style/variables.scss';
+@import '../../../style/variables.scss';
 
 .single-comic {
     margin-top: 50px;
@@ -37,3 +37,18 @@
         }
     }
 }
+// анімація 
+.hero-wrapper .enter {
+    opacity: 0;
+}
+.hero-wrapper .enter-active {
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+} 
+.hero-wrapper .exit {
+    opacity: 1;
+}
+.hero-wrapper .exit-active {
+    opacity: 0;
+    transition: opacity 500ms ease-in;
+} 

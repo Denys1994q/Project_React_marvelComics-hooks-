@@ -1,39 +1,41 @@
+import {useHttp} from '../hooks/http.hooks';
+
 // загальна ф-ія, яка відправляє запити 
 // - запит для отримання всіх персонажів разом
 // - запит для отримання одного персонажа
-// допоміжна ф-ія, яка коригує отримані дані (відріщає непотрібну дату)
+// допоміжна ф-ія, яка коригує отримані дані (відрізає непотрібну дату)
 
-class MarvelService {
-    _apiBase = 'https://gateway.marvel.com:443/v1/public/';
-    _apiKey = 'apikey=d958623270bfcc1cdb0952691b682b77';
-    startNum = 210;
-    num = 9;
+const useMarvelService = () => {
+    const {request, clearError, process, setProcess} = useHttp();
+
+    const _apiBase = 'https://gateway.marvel.com:443/v1/public/';
+    const _apiKey = 'apikey=d958623270bfcc1cdb0952691b682b77';
+    const startNum = 210;
     
-    // загальна ф-я по отриманню даних з сервера 
-    getResource = async (url) => {
-        let res = await fetch(url);
-        if (!res.ok) {
-            throw new Error('Помилка')
-        }
-        return await res.json();
-    }
-
     // ф-я щоб отримати всіх персонажів 
     // startOpt - з якого номеру почати показувати героїв
-    // num - по скільки героїв показувати 
-    getAllCharacters = async (startOpt = this.startNum, num = this.num) => {
-        const res = await this.getResource(`${this._apiBase}characters?limit=${num}&offset=${startOpt}&${this._apiKey}`);
-        
-        return res.data.results.map(this._transformCharacter)
+    const getAllCharacters = async (startOpt = startNum) => {
+        const res = await request(`${_apiBase}characters?limit=9&offset=${startOpt}&${_apiKey}`);
+        return res.data.results.map(_transformCharacter)
     }
+
     // ф-я щоб отримати одного персонажа  
-    getCharacter = async (id) => {
-        const res = await this.getResource(`${this._apiBase}characters/${id}?${this._apiKey}`); // вся відповідь
-        return this._transformCharacter(res.data.results[0]) // відповідь, трансформована в такий об'єкт як треба (без всього лишнього)
+    const getCharacter = async (id) => {
+        const res = await request(`${_apiBase}characters/${id}?${_apiKey}`); // вся відповідь
+        return _transformCharacter(res.data.results[0]) // відповідь, трансформована в такий об'єкт як треба (без всього лишнього)
+    }
+
+    const getCharacterByName = async (name) => {
+        const res = await request(`${_apiBase}characters?name=${name}&${_apiKey}`); 
+        if (res.data.total > 0) {
+            return _transformCharacter(res.data.results[0]) 
+        } else {
+            return
+        }
     }
 
     // допоміжна ф-ія, щоб в результаті відповіді сформувати такий об'єкт, як нам треба (відкинути все лишнє, що є у відповіді) 
-    _transformCharacter = (hero) => {
+    const _transformCharacter = (hero) => {
         return {
             id: hero.id,
             name: hero.name,
@@ -45,6 +47,39 @@ class MarvelService {
         }
     }
 
+    const startNumComics = 8;
+    const getComics = async (start = startNumComics) => {
+        const res = await request(`https://gateway.marvel.com:443/v1/public/comics?limit=8&offset=${start}&apikey=d958623270bfcc1cdb0952691b682b77`);
+        console.log(res)
+        return res.data.results.map(_transformComics);
+    }
+
+    const getComic = async (id) => {
+        const res = await request(`https://gateway.marvel.com:443/v1/public/comics/${id}?apikey=d958623270bfcc1cdb0952691b682b77`);
+        return _transformComics(res.data.results[0]);
+    }
+
+    const _transformComics = (comics) => {
+        return {
+            id: comics.id,
+            description: comics.description,
+            pages: comics.pageCount,
+            languages: comics.textObjects[0] ?  comics.textObjects[0].language : 'Languages: none',
+            thumbnail: comics.thumbnail.path + '.' + comics.thumbnail.extension,
+            title: comics.title,
+            price: comics.prices[0].price
+        }
+    }
+
+    return {
+            getAllCharacters, 
+            getCharacter, 
+            getCharacterByName, 
+            clearError, 
+            getComics, 
+            getComic, 
+            process,
+            setProcess}
 }
 
-export default MarvelService;
+export default useMarvelService;
